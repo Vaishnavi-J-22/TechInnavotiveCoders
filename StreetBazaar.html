@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreetBazaar - Sourcing for Street Food Vendors</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #productsSection {
+            transition: all 0.3s ease;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+        .vendor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .supplier-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .category-chip:hover {
+            background-color: #f97316;
+            color: white;
+        }
+        .scroll-hidden::-webkit-scrollbar {
+            display: none;
+        }
+        #loginModal {
+            transition: opacity 0.3s ease;
+        }
+        .group:hover .group-hover\:block {
+            display: block;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.polyfills.min.js"></script>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-utensils text-orange-500 text-2xl"></i>
+                <span class="text-xl font-bold text-orange-500">StreetBazaar</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-gray-700 hover:text-orange-500 font-medium">Home</a>
+                <a href="#suppliers" class="text-gray-700 hover:text-orange-500 font-medium">Suppliers</a>
+                <a href="#categories" class="text-gray-700 hover:text-orange-500 font-medium">Categories</a>
+                <a href="#how-it-works" class="text-gray-700 hover:text-orange-500 font-medium">How It Works</a>
+                <a href="#testimonials" class="text-gray-700 hover:text-orange-500 font-medium">Testimonials</a>
+                <a href="#dashboard" class="text-gray-700 hover:text-orange-500 font-medium">Dashboard</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button id="cartButton" class="text-gray-700 hover:text-orange-500 relative">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cartCounter" class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+                <div class="relative group">
+                    <button class="text-gray-700 hover:text-orange-500">
+                        <i class="fas fa-bars-staggered text-xl"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-orange-50">Account</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-orange-50">Cart</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-orange-50">Order Details</a>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-orange-50">Help & Support</a>
+                        <div class="border-t border-gray-200"></div>
+                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-orange-50">Sign Out</a>
+                    </div>
+                </div>
+                <button class="px-4 py-2 text-orange-500 border border-orange-500 rounded-md hover:bg-orange-50 font-medium">Login</button>
+                <button class="px-4 py-2 gradient-bg text-white rounded-md hover:bg-orange-600 font-medium">Sign Up</button>
+                <button class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="gradient-bg text-white py-16 md:py-24">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Source Quality Ingredients at Wholesale Prices</h1>
+                <p class="text-xl mb-8 opacity-90">Connecting Indian street food vendors with verified suppliers for fresh, affordable raw materials.</p>
+                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                    <button class="px-6 py-3 bg-white text-orange-600 rounded-md font-bold hover:bg-gray-100">Find Suppliers</button>
+                    <button class="px-6 py-3 border border-white rounded-md font-bold hover:bg-white hover:text-orange-600">Become a Supplier</button>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center">
+                <img src="https://i.pinimg.com/736x/87/23/59/87235975f5949d9e7a5027f03dd8d111.jpg" 
+                     alt="Indian street food" class="rounded-lg shadow-xl w-full max-w-md">
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="bg-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4">
+                    <div class="text-3xl md:text-4xl font-bold text-orange-500 mb-2">5,000+</div>
+                    <div class="text-gray-600">Vendors</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl md:text-4xl font-bold text-orange-500 mb-2">1,200+</div>
+                    <div class="text-gray-600">Verified Suppliers</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl md:text-4xl font-bold text-orange-500 mb-2">30%</div>
+                    <div class="text-gray-600">Average Savings</div>
+                </div>
+                <div class="p-4">
+                    <div class="text-3xl md:text-4xl font-bold text-orange-500 mb-2">50+</div>
+                    <div class="text-gray-600">Cities</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suppliers Section -->
+    <section id="suppliers" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Featured Suppliers</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Verified suppliers offering the best prices for street food ingredients</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Supplier Card 1 -->
+                <div class="supplier-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Spices supplier" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white px-2 py-1 rounded-full text-xs font-bold text-orange-500">
+                            <i class="fas fa-check-circle mr-1"></i> Verified
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold">Spice King Wholesale</h3>
+                            <div class="flex items-center text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <span class="ml-1 text-gray-700">4.8</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">Premium spices at wholesale prices. Serving Delhi NCR for 15+ years.</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-sm text-gray-500">Min. order:</span>
+                                <span class="font-bold">₹1,500</span>
+                            </div>
+                            <button class="px-4 py-2 gradient-bg text-white rounded-md text-sm hover:bg-orange-600">View Products</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Supplier Card 2 -->
+                <div class="supplier-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://i.pinimg.com/736x/0e/cd/07/0ecd0786e139032ab1002d7e4dfda72a.jpg" 
+                             alt="Vegetables supplier" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white px-2 py-1 rounded-full text-xs font-bold text-orange-500">
+                            <i class="fas fa-check-circle mr-1"></i> Verified
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold">Farm Fresh Vegetables</h3>
+                            <div class="flex items-center text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <span class="ml-1 text-gray-700">4.6</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">Daily fresh vegetables sourced directly from farmers in Maharashtra.</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-sm text-gray-500">Min. order:</span>
+                                <span class="font-bold">₹800</span>
+                            </div>
+                            <button class="px-4 py-2 gradient-bg text-white rounded-md text-sm hover:bg-orange-600">View Products</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Supplier Card 3 -->
+                <div class="supplier-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://i.pinimg.com/736x/41/3d/0b/413d0b5bc81df1eceb466c5fadca97bb.jpg" 
+                             alt="Dairy supplier" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-white px-2 py-1 rounded-full text-xs font-bold text-orange-500">
+                            <i class="fas fa-check-circle mr-1"></i> Verified
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold">Punjab Dairy Co-op</h3>
+                            <div class="flex items-center text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <span class="ml-1 text-gray-700">4.9</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">Premium dairy products including paneer, ghee, and fresh milk.</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-sm text-gray-500">Min. order:</span>
+                                <span class="font-bold">₹2,000</span>
+                            </div>
+                            <button class="px-4 py-2 gradient-bg text-white rounded-md text-sm hover:bg-orange-600">View Products</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <button class="px-6 py-3 border border-orange-500 text-orange-500 rounded-md font-bold hover:bg-orange-50">View All Suppliers</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Popular Categories</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Find all the ingredients you need for your street food business</p>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-pepper-hot text-xl"></i>
+                    </div>
+                    <div class="font-medium">Spices</div>
+                    <div class="text-xs text-gray-500 mt-1">Turmeric, Red Chili, Coriander, Cumin, Garam Masala</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-carrot text-xl"></i>
+                    </div>
+                    <div class="font-medium">Vegetables</div>
+                    <div class="text-xs text-gray-500 mt-1">Onions, Potatoes, Tomatoes, Green Chilies, Ginger</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-egg text-xl"></i>
+                    </div>
+                    <div class="font-medium">Dairy</div>
+                    <div class="text-xs text-gray-500 mt-1">Paneer, Ghee, Curd, Milk, Butter</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-drumstick-bite text-xl"></i>
+                    </div>
+                    <div class="font-medium">Poultry</div>
+                    <div class="text-xs text-gray-500 mt-1">Chicken, Eggs, Mutton, Duck, Quail</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-fish text-xl"></i>
+                    </div>
+                    <div class="font-medium">Seafood</div>
+                    <div class="text-xs text-gray-500 mt-1">Prawns, Pomfret, Surmai, Bangda, Crabs</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-wheat-awn text-xl"></i>
+                    </div>
+                    <div class="font-medium">Flour & Grains</div>
+                    <div class="text-xs text-gray-500 mt-1">Wheat, Rice, Besan, Sooji, Maida</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-bottle-water text-xl"></i>
+                    </div>
+                    <div class="font-medium">Oils</div>
+                    <div class="text-xs text-gray-500 mt-1">Mustard, Sunflower, Groundnut, Soybean, Coconut</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-ice-cream text-xl"></i>
+                    </div>
+                    <div class="font-medium">Desserts</div>
+                    <div class="text-xs text-gray-500 mt-1">Khoya, Sugar, Jaggery, Dry Fruits, Vanilla</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-leaf text-xl"></i>
+                    </div>
+                    <div class="font-medium">Herbs</div>
+                    <div class="text-xs text-gray-500 mt-1">Coriander, Mint, Curry Leaves, Basil, Lemongrass</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-jar text-xl"></i>
+                    </div>
+                    <div class="font-medium">Pickles</div>
+                    <div class="text-xs text-gray-500 mt-1">Mango, Lime, Mixed, Garlic, Chili</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-mortar-pestle text-xl"></i>
+                    </div>
+                    <div class="font-medium">Chutneys</div>
+                    <div class="text-xs text-gray-500 mt-1">Mint, Tamarind, Coconut, Garlic, Peanut</div>
+                </div>
+                <div class="category-chip p-4 bg-gray-100 rounded-lg text-center cursor-pointer transition duration-300">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-orange-100 rounded-full flex items-center justify-center text-orange-500">
+                        <i class="fas fa-fire text-xl"></i>
+                    </div>
+                    <div class="font-medium">Coal & Fuel</div>
+                    <div class="text-xs text-gray-500 mt-1">Charcoal, LPG, Wood, Kerosene, Firelighters</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section (hidden by default) -->
+    <section id="productsSection" class="py-16 bg-gray-50 hidden">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 id="categoryTitle" class="text-3xl font-bold">Spices Products</h2>
+                <button onclick="hideProducts()" class="px-4 py-2 text-orange-500 border border-orange-500 rounded-md hover:bg-orange-50 font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Categories
+                </button>
+            </div>
+            
+            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">How It Works</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Simple steps to get quality ingredients at wholesale prices</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 gradient-bg rounded-full flex items-center justify-center text-white text-2xl font-bold">1</div>
+                    <h3 class="text-xl font-bold mb-3">Create Your Account</h3>
+                    <p class="text-gray-600">Register as a vendor and verify your street food business details.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 gradient-bg rounded-full flex items-center justify-center text-white text-2xl font-bold">2</div>
+                    <h3 class="text-xl font-bold mb-3">Browse Suppliers</h3>
+                    <p class="text-gray-600">Find verified suppliers in your area with competitive prices.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 gradient-bg rounded-full flex items-center justify-center text-white text-2xl font-bold">3</div>
+                    <h3 class="text-xl font-bold mb-3">Place Your Order</h3>
+                    <p class="text-gray-600">Order directly through our platform and get delivery or pickup options.</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="md:flex">
+                    <div class="md:w-1/2 p-8 md:p-12">
+                        <h3 class="text-2xl font-bold mb-4">Special Benefits for Vendors</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Bulk discounts on large orders</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Daily price updates for seasonal products</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Credit options for trusted vendors</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Quality guarantee on all products</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" 
+                             alt="Vendor benefits" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 bg-white">
+        <!-- Review Submission Form -->
+        <div class="container mx-auto px-4 max-w-2xl mb-12 bg-orange-50 p-6 rounded-lg border border-orange-100">
+            <h3 class="text-xl font-bold mb-4 text-center">Share Your Experience</h3>
+            <form id="reviewForm" class="space-y-4">
+                <div>
+                    <label for="reviewerName" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                    <input type="text" id="reviewerName" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                </div>
+                <div>
+                    <label for="reviewerBusiness" class="block text-sm font-medium text-gray-700 mb-1">Your Business</label>
+                    <input type="text" id="reviewerBusiness" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                </div>
+                <div>
+                    <label for="reviewText" class="block text-sm font-medium text-gray-700 mb-1">Your Review</label>
+                    <textarea id="reviewText" rows="3" required 
+                              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                    <div class="flex space-x-1">
+                        <i class="far fa-star text-2xl text-yellow-400 cursor-pointer" data-rating="1"></i>
+                        <i class="far fa-star text-2xl text-yellow-400 cursor-pointer" data-rating="2"></i>
+                        <i class="far fa-star text-2xl text-yellow-400 cursor-pointer" data-rating="3"></i>
+                        <i class="far fa-star text-2xl text-yellow-400 cursor-pointer" data-rating="4"></i>
+                        <i class="far fa-star text-2xl text-yellow-400 cursor-pointer" data-rating="5"></i>
+                    </div>
+                    <input type="hidden" id="reviewRating" value="5">
+                </div>
+                <button type="submit" class="w-full gradient-bg text-white py-2 px-4 rounded-md hover:bg-orange-600 font-medium">
+                    Submit Review
+                </button>
+            </form>
+        </div>
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">What Our Vendors Say</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Hear from street food vendors who've transformed their businesses</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-orange-200 flex items-center justify-center text-orange-600 font-bold mr-4">RK</div>
+                        <div>
+                            <h4 class="font-bold">Rajesh Kumar</h4>
+                            <p class="text-sm text-gray-500">Chaat Vendor, Delhi</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-2 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700">"Since using StreetBazaar, my ingredient costs have dropped by 25%. The quality is consistent and delivery is always on time. My pani puri business has never been better!"</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-orange-200 flex items-center justify-center text-orange-600 font-bold mr-4">PM</div>
+                        <div>
+                            <h4 class="font-bold">Priya Malhotra</h4>
+                            <p class="text-sm text-gray-500">Dosa Stall, Bangalore</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-2 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-700">"Finding reliable suppliers for fresh ingredients was always a challenge. StreetBazaar connected me with farmers directly. Now I get the best produce at wholesale rates."</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-orange-200 flex items-center justify-center text-orange-600 font-bold mr-4">AS</div>
+                        <div>
+                            <h4 class="font-bold">Amit Sharma</h4>
+                            <p class="text-sm text-gray-500">Kebab Cart, Mumbai</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-2 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="text-gray-700">"The meat suppliers on StreetBazaar are properly verified. I get quality chicken at prices lower than the local market. The mobile app makes ordering so convenient."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Grow Your Street Food Business?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Join thousands of vendors who are saving money and time with StreetBazaar</p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <button class="px-8 py-3 bg-white text-orange-600 rounded-md font-bold hover:bg-gray-100">Sign Up as Vendor</button>
+                <button class="px-8 py-3 border border-white rounded-md font-bold hover:bg-white hover:text-orange-600">Supplier Registration</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 text-center">Vendor Dashboard</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- Stats Card 1 -->
+                <div class="bg-orange-50 p-6 rounded-lg border border-orange-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600">Monthly Orders</p>
+                            <h3 class="text-3xl font-bold text-orange-600">24</h3>
+                        </div>
+                        <div class="bg-orange-100 p-3 rounded-full">
+                            <i class="fas fa-shopping-cart text-orange-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-green-600 mt-2">
+                        <i class="fas fa-arrow-up mr-1"></i> 12% from last month
+                    </p>
+                </div>
+                
+                <!-- Stats Card 2 -->
+                <div class="bg-orange-50 p-6 rounded-lg border border-orange-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600">Total Savings</p>
+                            <h3 class="text-3xl font-bold text-orange-600">₹8,450</h3>
+                        </div>
+                        <div class="bg-orange-100 p-3 rounded-full">
+                            <i class="fas fa-rupee-sign text-orange-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-green-600 mt-2">
+                        <i class="fas fa-arrow-up mr-1"></i> 18% from last month
+                    </p>
+                </div>
+                
+                <!-- Stats Card 3 -->
+                <div class="bg-orange-50 p-6 rounded-lg border border-orange-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600">Favorite Supplier</p>
+                            <h3 class="text-xl font-bold text-orange-600">Spice King</h3>
+                        </div>
+                        <div class="bg-orange-100 p-3 rounded-full">
+                            <i class="fas fa-store text-orange-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">6 orders this month</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Recent Orders -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-history text-orange-500 mr-2"></i> Recent Orders
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-white rounded-lg border border-gray-100">
+                            <div>
+                                <p class="font-medium">Order #SB-2458</p>
+                                <p class="text-sm text-gray-500">Spices - 12 items</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold">₹2,450</p>
+                                <p class="text-sm text-green-600">Delivered</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-white rounded-lg border border-gray-100">
+                            <div>
+                                <p class="font-medium">Order #SB-2451</p>
+                                <p class="text-sm text-gray-500">Vegetables - 8 items</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold">₹1,280</p>
+                                <p class="text-sm text-blue-600">In Transit</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-white rounded-lg border border-gray-100">
+                            <div>
+                                <p class="font-medium">Order #SB-2449</p>
+                                <p class="text-sm text-gray-500">Dairy - 5 items</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold">₹3,150</p>
+                                <p class="text-sm text-yellow-600">Processing</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-full mt-4 px-4 py-2 border border-orange-500 text-orange-500 rounded-md hover:bg-orange-50 font-medium">
+                        View All Orders
+                    </button>
+                </div>
+                
+                <!-- Cart Items -->
+            <div id="cartItems" class="fixed top-20 right-4 w-96 bg-white rounded-lg shadow-xl z-50 border border-gray-200 hidden">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-shopping-cart text-orange-500 mr-2"></i> Your Cart
+                    </h3>
+                    <div id="cartItemsList" class="space-y-4">
+                        <!-- Cart items will be inserted here -->
+                    </div>
+                    <div class="bg-gray-50 p-4 border-t border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold">Total:</span>
+                            <span id="cartTotal" class="font-bold text-lg">₹0</span>
+                        </div>
+                        <button class="w-full mt-3 px-4 py-2 gradient-bg text-white rounded-md hover:bg-orange-600 font-medium">
+                            Proceed to Checkout
+                        </button>
+
+                    </div>
+                </div>
+<!-- Address Modal -->
+<div id="addressModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+  <div class="bg-white p-6 rounded-lg w-full max-w-md">
+    <h3 class="text-xl font-bold mb-4">Enter Delivery Address</h3>
+    <form id="addressForm" class="space-y-4">
+      <textarea id="deliveryAddress" required class="w-full h-28 p-3 border border-gray-300 rounded-md resize-none focus:ring-orange-500 focus:border-orange-500" placeholder="Enter your delivery address"></textarea>
+      <button type="submit" class="w-full px-4 py-2 gradient-bg text-white rounded-md hover:bg-orange-600 font-medium">Place Order</button>
+    </form>
+  </div>
+</div>
+<!-- Order Summary Section -->
+<div id="orderSummary" class="hidden p-6 max-w-3xl mx-auto mt-10 bg-white rounded-lg shadow-lg border border-gray-200">
+  <h2 class="text-2xl font-bold mb-4 text-green-600">Order Placed Successfully</h2>
+  <p class="mb-4 text-gray-700">Thank you! Your order has been placed with the following items:</p>
+  <ul id="orderItemsList" class="space-y-2 list-disc pl-5 text-gray-800">
+    <!-- Items will be injected here -->
+  </ul>
+  <div class="mt-4">
+    <strong>Delivery Address:</strong>
+    <p id="finalDeliveryAddress" class="mt-1 text-gray-600"></p>
+  </div>
+</div>
+<script>
+  // Replace with actual cart data if dynamically loaded
+  const cartItems = [
+    { name: "Premium Turmeric Powder", price: 250 },
+    { name: "Organic Tomatoes", price: 40 }
+  ];
+
+  // On Proceed to Checkout click
+  document.querySelector("#cartItems button").addEventListener("click", function () {
+    document.getElementById("addressModal").classList.remove("hidden");
+  });
+
+  // On address submit
+  document.getElementById("addressForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const address = document.getElementById("deliveryAddress").value.trim();
+    if (!address) return;
+
+    // Hide modals
+    document.getElementById("addressModal").classList.add("hidden");
+    document.getElementById("cartItems").classList.add("hidden");
+
+    // Fill Order Summary
+    const list = document.getElementById("orderItemsList");
+    list.innerHTML = "";
+    cartItems.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = `${item.name} - ₹${item.price}`;
+      list.appendChild(li);
+    });
+
+    document.getElementById("finalDeliveryAddress").textContent = address;
+    document.getElementById("orderSummary").classList.remove("hidden");
+  });
+</script>
+            
+                <!-- Quick Actions -->
+                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-bolt text-orange-500 mr-2"></i> Quick Actions
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button class="p-4 bg-white rounded-lg border border-gray-200 hover:border-orange-300 hover:bg-orange-50 text-center">
+                            <i class="fas fa-plus-circle text-orange-500 text-2xl mb-2"></i>
+                            <p class="font-medium">New Order</p>
+                        </button>
+                        <button class="p-4 bg-white rounded-lg border border-gray-200 hover:border-orange-300 hover:bg-orange-50 text-center">
+                            <i class="fas fa-truck text-orange-500 text-2xl mb-2"></i>
+                            <p class="font-medium">Track Order</p>
+                        </button>
+                        <button class="p-4 bg-white rounded-lg border border-gray-200 hover:border-orange-300 hover:bg-orange-50 text-center">
+                            <i class="fas fa-file-invoice-dollar text-orange-500 text-2xl mb-2"></i>
+                            <p class="font-medium">Invoices</p>
+                        </button>
+                        <button class="p-4 bg-white rounded-lg border border-gray-200 hover:border-orange-300 hover:bg-orange-50 text-center">
+                            <i class="fas fa-user-cog text-orange-500 text-2xl mb-2"></i>
+                            <p class="font-medium">Account</p>
+                        </button>
+                    </div>
+                    
+                    <div class="mt-6 bg-orange-50 p-4 rounded-lg border border-orange-100">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <i class="fas fa-bell text-orange-500 mr-2"></i> Notifications
+                        </h4>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <div class="bg-orange-100 p-1 rounded-full mr-3 mt-1">
+                                    <i class="fas fa-truck text-orange-500 text-xs"></i>
+                                </div>
+                                <p class="text-sm">Your order #SB-2451 will be delivered today</p>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="bg-orange-100 p-1 rounded-full mr-3 mt-1">
+                                    <i class="fas fa-tag text-orange-500 text-xs"></i>
+                                </div>
+                                <p class="text-sm">Special discount on spices from Spice King</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-12 text-center">Frequently Asked Questions</h2>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold">
+                        <span>How do I know the suppliers are reliable?</span>
+                        <i class="fas fa-chevron-down text-orange-500"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden">
+                        All suppliers on StreetBazaar undergo a rigorous verification process including business registration checks, quality audits, and customer feedback reviews. We also conduct surprise quality checks to maintain standards.
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold">
+                        <span>What's the minimum order quantity?</span>
+                        <i class="fas fa-chevron-down text-orange-500"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden">
+                        Minimum order quantities vary by supplier and product category. Typically, MOQs range from ₹800 to ₹3,000 depending on the product. You can filter suppliers by MOQ that fits your business needs.
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold">
+                        <span>How are deliveries handled?</span>
+                        <i class="fas fa-chevron-down text-orange-500"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden">
+                        Most suppliers offer delivery options within their service areas, often with temperature-controlled vehicles for perishables. Some also offer pickup options from their warehouses. Delivery fees vary and are clearly displayed.
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <button class="flex justify-between items-center w-full text-left font-bold">
+                        <span>What if I receive damaged or poor quality goods?</span>
+                        <i class="fas fa-chevron-down text-orange-500"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden">
+                        StreetBazaar offers a quality guarantee. If you receive substandard products, report it within 24 hours with photos and we'll arrange for replacement or refund. Repeated quality issues lead to supplier suspension.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-utensils text-orange-500 text-2xl"></i>
+                        <span class="text-xl font-bold">StreetBazaar</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Empowering street food vendors with affordable, quality ingredients since 2018.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">For Vendors</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">How It Works</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Vendor Success Stories</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">For Suppliers</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Supplier Benefits</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Verification Process</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Supplier Dashboard</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Quality Standards</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Contact Us</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-orange-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">123 Food Street, Mumbai, Maharashtra 400001</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-orange-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">+91 98765 43210</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-orange-500 mt-1 mr-3"></i>
+                            <span class="text-gray-400">hello@streetbazaar.in</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2023 StreetBazaar. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Login Modal -->
+    <body>
+        <!-- Top Right Avatar Placeholder -->
+<div id="userAvatar" class="fixed top-4 right-4 hidden w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center text-lg font-semibold shadow-lg z-50"></div>
+
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Vendor Login</h3>
+                <button id="closeLoginModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" id="email" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="password" required 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500">
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" class="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                    </div>
+                    <a href="#" class="text-sm text-orange-600 hover:text-orange-500">Forgot password?</a>
+                </div>
+                <button type="submit" class="w-full gradient-bg text-white py-2 px-4 rounded-md hover:bg-orange-600 font-medium">
+                    Login
+                </button>
+            </form>
+            <div class="mt-4 text-center text-sm text-gray-600">
+                Don't have an account? <a href="#" class="text-orange-600 hover:text-orange-500 font-medium">Sign up</a>
+            </div>
+        </div>
+    </div>
+    <script>
+  // Handle login submit
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    if (!email) return;
+
+    const firstLetter = email.charAt(0).toUpperCase();
+
+    const avatar = document.getElementById("userAvatar");
+    avatar.textContent = firstLetter;
+    avatar.classList.remove("hidden");
+
+    // Close modal
+    document.getElementById("loginModal").classList.add("hidden");
+
+    // Optional: clear the form
+    this.reset();
+  });
+
+  // Close modal button
+  document.getElementById("closeLoginModal").addEventListener("click", function () {
+    document.getElementById("loginModal").classList.add("hidden");
+  });
+</script>
+
+</body>
+    <script>
+        // Product data for each category
+        const categoryProducts = {
+            'Spices': [
+                {
+                    name: 'Premium Turmeric Powder',
+                    supplier: 'Spice King Wholesale',
+                    price: '₹120/kg',
+                    minOrder: '5kg',
+                    rating: 4.8,
+                    image: 'https://i.pinimg.com/736x/19/71/31/197131cd14922b7b7a951f3ecce73546.jpg'
+                },
+                {
+                    name: 'Kashmiri Red Chili Powder',
+                    supplier: 'Spice King Wholesale',
+                    price: '₹180/kg',
+                    minOrder: '5kg',
+                    rating: 4.7,
+                    image: 'https://i.pinimg.com/1200x/bc/e4/fb/bce4fb5248fd62c77e65861c195eef91.jpg'
+                },
+                {
+                    name: 'Coriander Powder',
+                    supplier: 'Spice King Wholesale',
+                    price: '₹90/kg',
+                    minOrder: '5kg',
+                    rating: 4.5,
+                    image: 'https://i.pinimg.com/736x/25/92/77/2592775222affed76fdb91da9940f1c0.jpg'
+                },
+                {
+                    name: 'Cumin Seeds',
+                    supplier: 'Spice King Wholesale',
+                    price: '₹200/kg',
+                    minOrder: '5kg',
+                    rating: 4.9,
+                    image: 'https://i.pinimg.com/736x/46/55/28/465528aec59c7c8c4b162d1122d5f4f6.jpg'
+                },
+                {
+                    name: 'Garam Masala',
+                    supplier: 'Spice King Wholesale',
+                    price: '₹250/kg',
+                    minOrder: '5kg',
+                    rating: 4.8,
+                    image: 'https://i.pinimg.com/736x/85/be/3c/85be3c687580d057583002a3b8d3b177.jpg'
+                }
+            ],
+            'Vegetables': [
+                {
+                    name: 'Fresh Onions',
+                    supplier: 'Farm Fresh Vegetables',
+                    price: '₹30/kg',
+                    minOrder: '10kg',
+                    rating: 4.6,
+                    image: 'https://i.pinimg.com/1200x/b0/d5/6c/b0d56c69a286193fd8fe74bcbfcc279e.jpg'
+                },
+                {
+                    name: 'Premium Potatoes',
+                    supplier: 'Farm Fresh Vegetables',
+                    price: '₹25/kg',
+                    minOrder: '15kg',
+                    rating: 4.5,
+                    image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
+                },
+                {
+                    name: 'Organic Tomatoes',
+                    supplier: 'Green Fields Produce',
+                    price: '₹40/kg',
+                    minOrder: '8kg',
+                    rating: 4.7,
+                    image: 'https://images.unsplash.com/photo-1582284540020-8acbe03f4924?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
+                },
+                {
+                    name: 'Fresh Green Chilies',
+                    supplier: 'Spice Farm Direct',
+                    price: '₹80/kg',
+                    minOrder: '5kg',
+                    rating: 4.4,
+                    image: 'https://i.pinimg.com/1200x/68/f6/b2/68f6b20820d43dbf9704652150288dbc.jpg'
+                },
+                {
+                    name: 'Organic Ginger',
+                    supplier: 'Roots & Shoots',
+                    price: '₹120/kg',
+                    minOrder: '3kg',
+                    rating: 4.8,
+                    image: 'https://i.pinimg.com/736x/3d/56/c8/3d56c861a83aba24c012566ecef03ac0.jpg'
+                }
+            ],
+            'Dairy': [
+                {
+                    name: 'Fresh Paneer',
+                    supplier: 'Punjab Dairy Co-op',
+                    price: '₹240/kg',
+                    minOrder: '5kg',
+                    rating: 4.9,
+                    image: 'https://i.pinimg.com/736x/e5/d4/e1/e5d4e1de23599058422134258cfdd870.jpg'
+                },
+                {
+                    name: 'Pure Desi Ghee',
+                    supplier: 'Golden Dairy Farms',
+                    price: '₹600/liter',
+                    minOrder: '2 liters',
+                    rating: 4.8,
+                    image: 'https://i.pinimg.com/736x/bf/77/1f/bf771fb0a459f836f3ab88850f740957.jpg'
+                },
+                {
+                    name: 'Fresh Curd',
+                    supplier: 'Punjab Dairy Co-op',
+                    price: '₹50/kg',
+                    minOrder: '10kg',
+                    rating: 4.7,
+                    image: 'https://i.pinimg.com/736x/de/f5/14/def514b1a5227053e3410c7de77f09e9.jpg'
+                },
+                {
+                    name: 'Buffalo Milk',
+                    supplier: 'Golden Dairy Farms',
+                    price: '₹60/liter',
+                    minOrder: '20 liters',
+                    rating: 4.6,
+                    image: 'https://i.pinimg.com/736x/3f/7a/0d/3f7a0db65e745f447d95464fe9c48a33.jpg'
+                },
+                {
+                    name: 'Fresh Butter',
+                    supplier: 'Punjab Dairy Co-op',
+                    price: '₹400/kg',
+                    minOrder: '3kg',
+                    rating: 4.8,
+                    image: 'https://i.pinimg.com/736x/da/bf/bf/dabfbffaae502b32a0f7d4485ced1899.jpg'
+                }
+            ],
+            'Oils': [
+                {
+                    name: 'Pure Mustard Oil',
+                    supplier: 'Oil King Traders',
+                    price: '₹180/liter',
+                    minOrder: '5 liters',
+                    rating: 4.7,
+                    image: 'https://i.pinimg.com/1200x/b8/3b/32/b83b324201cdf0e9c87d4ecc0488a0e6.jpg'
+                },
+                {
+                    name: 'Sunflower Oil',
+                    supplier: 'Healthy Oils Co.',
+                    price: '₹160/liter',
+                    minOrder: '10 liters',
+                    rating: 4.6,
+                    image: 'https://i.pinimg.com/736x/6b/ed/74/6bed74cbd45f24a52fa79f5415de914c.jpg'
+                },
+                {
+                    name: 'Cold Pressed Coconut Oil',
+                    supplier: 'Kerala Naturals',
+                    price: '₹300/liter',
+                    minOrder: '3 liters',
+                    rating: 4.9,
+                    image: 'https://i.pinimg.com/1200x/16/05/90/1605904ba05c3488f5f3eed5e0675d82.jpg'
+                },
+                {
+                    name: 'Refined Soybean Oil',
+                    supplier: 'Oil King Traders',
+                    price: '₹140/liter',
+                    minOrder: '15 liters',
+                    rating: 4.5,
+                    image: 'https://i.pinimg.com/736x/bc/53/58/bc53583c3962d0b39dd4e643d24641eb.jpg'
+                },
+                {
+                    name: 'Extra Virgin Olive Oil',
+                    supplier: 'Healthy Oils Co.',
+                    price: '₹800/liter',
+                    minOrder: '2 liters',
+                    rating: 4.8,
+                    image: 'https://i.pinimg.com/1200x/a5/a4/7c/a5a47cf02660a5eb5afed185f4a86854.jpg'
+                }
+            ]
+        };
+
+        // Show products when category is clicked
+        function showProducts(category) {
+            document.getElementById('categories').classList.add('hidden');
+            document.getElementById('productsSection').classList.remove('hidden');
+            document.getElementById('categoryTitle').textContent = `${category} Products`;
+            
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '';
+            
+            categoryProducts[category].forEach(product => {
+                productsGrid.innerHTML += `
+                    <div class="supplier-card bg-white rounded-lg shadow-md overflow-hidden transition duration-300">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-1">${product.name}</h3>
+                            <p class="text-gray-600 mb-2">Supplier: ${product.supplier}</p>
+                            <div class="flex justify-between items-center mb-3">
+                                <div>
+                                    <span class="text-sm text-gray-500">Price:</span>
+                                    <span class="font-bold ml-1">${product.price}</span>
+                                </div>
+                                <div class="flex items-center text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <span class="ml-1 text-gray-700">${product.rating}</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="text-sm text-gray-500">Min. order:</span>
+                                    <span class="font-bold ml-1">${product.minOrder}</span>
+                                </div>
+                                <button onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})" class="px-4 py-2 gradient-bg text-white rounded-md text-sm hover:bg-orange-600">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Hide products and show categories
+        function hideProducts() {
+            document.getElementById('categories').classList.remove('hidden');
+            document.getElementById('productsSection').classList.add('hidden');
+        }
+
+        // Add click handlers to all category chips
+        document.querySelectorAll('.category-chip').forEach(chip => {
+            const category = chip.querySelector('.font-medium').textContent;
+            chip.addEventListener('click', () => showProducts(category));
+        });
+
+        // Login Modal Functionality
+        const loginModal = document.getElementById('loginModal');
+        const loginButtons = document.querySelectorAll('button');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const loginForm = document.getElementById('loginForm');
+
+        // Open modal when login button is clicked
+        loginButtons.forEach(btn => {
+            if (btn.textContent.trim() === 'Login') {
+                btn.addEventListener('click', () => {
+                    loginModal.classList.remove('hidden');
+                });
+            }
+        });
+
+        // Close modal
+        closeLoginModal.addEventListener('click', () => {
+            loginModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.add('hidden');
+            }
+        });
+
+        // Handle form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Here you would typically send this to your backend
+            console.log('Login attempt with:', {email, password});
+            
+            // For demo purposes, just show an alert
+            alert('Login functionality would connect to your backend API in a real implementation');
+            
+            // Close modal after submission
+            loginModal.classList.add('hidden');
+        });
+
+        // Cart functionality
+        let cart = [];
+        
+        function updateCart() {
+            // Update counter
+            const counter = document.getElementById('cartCounter');
+            counter.textContent = cart.length;
+            counter.classList.toggle('hidden', cart.length === 0);
+            
+            // Update cart items list
+            const cartItemsList = document.getElementById('cartItemsList');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '<p class="text-gray-500 text-center">Your cart is empty</p>';
+                cartTotal.textContent = '₹0';
+                return;
+            }
+            
+            cartItemsList.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                const price = parseInt(item.price.replace(/[^0-9]/g, ''));
+                total += price;
+                
+                cartItemsList.innerHTML += `
+                    <div class="flex justify-between items-center p-3 bg-white rounded-lg border border-gray-100">
+                        <div>
+                            <p class="font-medium">${item.name}</p>
+                            <p class="text-sm text-gray-500">${item.price} • ${item.supplier}</p>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="font-bold mr-4">${item.price}</span>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartTotal.textContent = `₹${total}`;
+        }
+        
+        function addToCart(product) {
+            cart.push(product);
+            updateCart();
+            // Show notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg';
+            notification.innerHTML = `<i class="fas fa-check-circle mr-2"></i> ${product.name} added to cart`;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+        
+        // Toggle cart visibility with better UX
+        document.getElementById('cartButton').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const cart = document.getElementById('cartItems');
+            cart.classList.toggle('hidden');
+            
+            // Close cart when clicking outside
+            if (!cart.classList.contains('hidden')) {
+                setTimeout(() => {
+                    document.addEventListener('click', function closeCart() {
+                        cart.classList.add('hidden');
+                        document.removeEventListener('click', closeCart);
+                    });
+                }, 100);
+            }
+        });
+        
+        // Review functionality
+        const reviewForm = document.getElementById('reviewForm');
+        const stars = document.querySelectorAll('[data-rating]');
+        const ratingInput = document.getElementById('reviewRating');
+        
+        // Handle star rating selection
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.getAttribute('data-rating'));
+                ratingInput.value = rating;
+                
+                stars.forEach((s, i) => {
+                    if (i < rating) {
+                        s.classList.remove('far');
+                        s.classList.add('fas');
+                    } else {
+                        s.classList.remove('fas');
+                        s.classList.add('far');
+                    }
+                });
+            });
+        });
+        
+        // Initialize with 5 stars selected
+        stars[4].click();
+        
+        // Handle review submission
+        reviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('reviewerName').value;
+            const business = document.getElementById('reviewerBusiness').value;
+            const text = document.getElementById('reviewText').value;
+            const rating = parseInt(ratingInput.value);
+            
+            const review = {
+                name,
+                business,
+                text,
+                rating,
+                initials: name.split(' ').map(n => n[0]).join('').toUpperCase()
+            };
+            
+            // No need for localStorage since we're showing reviews immediately
+            
+            // Add the new review directly to the page
+            const testimonialsContainer = document.querySelector('#testimonials > .container > .grid');
+            const starsHtml = Array(5).fill('')
+                .map((_, i) => 
+                    `<i class="fas fa-star${i < review.rating ? '' : ' text-gray-300'}"></i>`
+                ).join('');
+            
+            const reviewHtml = `
+                <div class="bg-gray-50 p-6 rounded-lg" data-user-review="true">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-orange-200 flex items-center justify-center text-orange-600 font-bold mr-4">
+                            ${review.initials}
+                        </div>
+                        <div>
+                            <h4 class="font-bold">${review.name}</h4>
+                            <p class="text-sm text-gray-500">${review.business}</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-2 text-yellow-400">
+                        ${starsHtml}
+                    </div>
+                    <p class="text-gray-700">"${review.text}"</p>
+                </div>
+            `;
+            
+            // Insert the new review at the top of the testimonials
+            testimonialsContainer.insertAdjacentHTML('afterbegin', reviewHtml);
+            
+            // Show success notification instead of alert
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg';
+            notification.innerHTML = `<i class="fas fa-check-circle mr-2"></i> Thank you for your review!`;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+            
+            // Reset form
+            reviewForm.reset();
+            stars[4].click();
+        });
+        
+        // No need for displayUserReviews function anymore
+        
+        // Toggle FAQ answers
+        document.querySelectorAll('.bg-white button').forEach(button => {
+            if (button.parentElement.classList.contains('bg-white')) {
+                button.addEventListener('click', () => {
+                    const answer = button.nextElementSibling;
+                    answer.classList.toggle('hidden');
+                    const icon = button.querySelector('i');
+                    if (answer.classList.contains('hidden')) {
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    } else {
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    }
+                });
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('.md\\:hidden button');
+        const navLinks = document.querySelector('.hidden.md\\:flex.space-x-8');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            navLinks.classList.toggle('hidden');
+            navLinks.classList.toggle('flex');
+            navLinks.classList.toggle('flex-col');
+            navLinks.classList.toggle('absolute');
+            navLinks.classList.toggle('top-16');
+            navLinks.classList.toggle('left-0');
+            navLinks.classList.toggle('right-0');
+            navLinks.classList.toggle('bg-white');
+            navLinks.classList.toggle('shadow-md');
+            navLinks.classList.toggle('p-4');
+            navLinks.classList.toggle('space-y-4');
+            navLinks.classList.toggle('space-x-8');
+        });
+    </script>
+</body>
+</html>
